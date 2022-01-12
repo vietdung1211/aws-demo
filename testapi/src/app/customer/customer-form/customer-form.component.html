@@ -1,0 +1,9 @@
+<form>
+    <label for="">ID</label>
+    <input type="text" placeholder="Id" [(ngModel)]="currentCustomer.id" [ngModelOptions]="{standalone: true}">
+    <label for="">Username</label>
+    <input type="text" placeholder="username" [(ngModel)]="currentCustomer.username" [ngModelOptions]="{standalone: true}">
+    <label for="">Password</label>
+    <input type="text" placeholder="Name" [(ngModel)]="currentCustomer.password" [ngModelOptions]="{standalone: true}">
+    <button (click)="Onsubmit()">Submit</button>
+</form>

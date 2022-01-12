@@ -1,0 +1,217 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  demo
+
+  Sample SAM Template for demo
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+  Api:
+    Cors:
+      AllowMethods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
+      AllowHeaders: "'Content-Type,X-Amz-Date,X-Amz-Security-Token,Authorization,X-Api-Key,X-Requested-With,Accept,Access-Control-Allow-Methods,Access-Control-Allow-Origin,Access-Control-Allow-Headers'"
+      AllowOrigin: "'*'"
+Resources:
+  HelloWorldFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: hello-world/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        HelloWorld:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /hello
+            Method: GET
+  loginFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: login/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - AmazonAPIGatewayInvokeFullAccess
+        - AmazonAPIGatewayAdministrator
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        login:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /login
+            Method: GET
+  loginByUserNameFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: login/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - AmazonAPIGatewayInvokeFullAccess
+        - AmazonAPIGatewayAdministrator
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        loginByUserName:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /login
+            Method: POST
+  createUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/createUser
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - AmazonAPIGatewayInvokeFullAccess
+        - AmazonAPIGatewayAdministrator
+        - AmazonDynamoDBFullAccess
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        createUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user
+            Method: POST
+  deleteUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/deleteUser
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        deleteUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user
+            Method: DELETE
+  GetAllUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/GetAllUser
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        GetAllUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user
+            Method: GET
+  GetUserByIdFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/GetUserById
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        GetUserById:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user/{id}
+            Method: GET
+  updateUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: user/updateUser
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Description: A simple example includes a HTTP get method to get one item by id from a DynamoDB table.
+      Policies:
+      #   # Give Create/Read/Update/Delete Permissions to the SampleTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UserTable
+      Environment:
+        Variables:
+          # Make table name accessible as environment variable from function code during execution
+          SAMPLE_TABLE: !Ref UserTable
+      Events:
+        updateUser:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /user/{id}
+            Method: PUT
+  UserTable:
+    Type: AWS::Serverless::SimpleTable
+    Properties:
+      PrimaryKey:
+        Name: id
+        Type: String
+      ProvisionedThroughput:
+        ReadCapacityUnits: 4
+        WriteCapacityUnits: 4
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt HelloWorldFunction.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt HelloWorldFunctionRole.Arn

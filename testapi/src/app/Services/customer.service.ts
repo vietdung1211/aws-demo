@@ -7,10 +7,8 @@ import { Customer } from '../models/Customer.model';
 export class CustomerService {
 	API = 'https://hsxbvp329f.execute-api.us-east-2.amazonaws.com/Prod/user';
 
-	private http: HttpClient;
 
-	constructor(httpBackend: HttpBackend) {
-	  this.http = new HttpClient(httpBackend);
+	constructor(private http: HttpClient) {
   }
 
     getAll(): Observable<Customer[]>{

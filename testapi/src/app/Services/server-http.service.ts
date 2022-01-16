@@ -28,68 +28,68 @@ export class ServerHttpService {
     const url = `${this.REST_API_SERVER}/students`;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public getStudent(studentId: number) {
     const url = `${this.REST_API_SERVER}/students/` + studentId;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public getRandomStudent() {
     const url = `https://randomuser.me/api/?results=1`;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public addStudent(data: Student) {
     const url = `${this.REST_API_SERVER}/students`;
     return this.httpClient
       .post<any>(url, data, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public modifyStudent(studentId: number, data: Student) {
     const url = `${this.REST_API_SERVER}/students/` + studentId;
     return this.httpClient
       .put<any>(url, data, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public deleteStudent(studentId: number) {
     const url = `${this.REST_API_SERVER}/students/` + studentId;
-    return this.httpClient.delete<any>(url).pipe(catchError(this.handleError));
+    return this.httpClient.delete<any>(url);
   }
 
   public getProfile() {
     const url = `${this.REST_API_SERVER}/profile`;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public getComments() {
     const url = `${this.REST_API_SERVER}/comments`;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public getPosts() {
     const url = `${this.REST_API_SERVER}/posts`;
     return this.httpClient
       .get<any>(url, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   public addPosts(data) {
     const url = `${this.REST_API_SERVER}/posts`;
     return this.httpClient
       .post<any>(url, data, this.httpOptions)
-      .pipe(catchError(this.handleError));
+      ;
   }
 
   private handleError(error: HttpErrorResponse) {

@@ -38,11 +38,13 @@ import { CustomerFormComponent } from './customer/customer-form/customer-form.co
 import { CustomerService } from './Services/customer.service';
 import { LoginComponent } from './login/login.component';
 import { JwtModule, JwtModuleOptions } from '@auth0/angular-jwt';
-import { TokenInterceptorService } from './intercepter/token-interceptor.service';
+// import { TokenInterceptorService } from './intercepter/token-interceptor.service';
 import { AuthInterceptor } from './intercepter/auth.intercepter';
 
-const JWT_Module_Options: JwtModuleOptions = {};
-
+// const JWT_Module_Options: JwtModuleOptions = {};
+export function tokenGetter() {
+  return localStorage.getItem("access_token");
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +77,14 @@ const JWT_Module_Options: JwtModuleOptions = {};
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    JwtModule.forRoot(JWT_Module_Options)
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        // allowedDomains: ["example.com"],
+        // disallowedRoutes: ["http://example.com/examplebadroute/"],
+      },
+    })
+    // JwtModule.forRoot(JWT_Module_Options)
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
